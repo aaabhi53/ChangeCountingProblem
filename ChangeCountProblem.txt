@@ -1,0 +1,61 @@
+/*Here I tried to solved change counting problem , and get maximum combination of given coins.I generate random number for each type of coin {1,6,7} as  amount/coin[0]= max range.Put max range for random no (0 , max range).
+
+
+
+static void Main(string[] args)
+        {
+            
+          MyProcess mp = new MyProcess();
+          int[] nums = {1,6,7};
+          Console.WriteLine(mp.getCombination(15,nums));
+          Console.ReadLine();
+        }
+
+
+public int getCombination(int amount,int[] nums)
+        {
+            Random r = new Random();
+            List <int> list=new List<int>();
+            HashSet<string> set= new HashSet<string>();
+            List<string> waste = new List<string>();
+            string tempcomb="";
+            int repeat = 0 ,sum=0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                 list.Add( amount / nums[i]);
+            }
+            while (repeat <= 1000)     
+// if same cambination repeats <=1000 time then consider now all combination done.and stop finding. 
+            {
+                sum = 0;
+                tempcomb = "";
+                for (int j = 0; j < nums.Length; j++)
+                {
+                   int temp =r.Next(0, list[j]+1);
+                    sum = sum + temp*nums[j];
+                    tempcomb = tempcomb + temp.ToString()+",";
+                }
+               
+                if (sum == amount)
+                {
+                    if (!set.Contains(tempcomb))
+                    {
+                        set.Add(tempcomb);
+                        repeat = 0;
+                    }
+                    else
+                    {
+                        waste.Add(tempcomb);
+                        repeat++;
+                    }
+                   
+                }
+
+            }
+            foreach(string str in set)
+            {
+                Console.WriteLine(str);
+            }
+            return set.Count;
+
+        }
